@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Weather Home</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #87b7e7;
+      margin: 0;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-family:'times new roman';
+      font-size: 70px;
+      font-weight: 800;
+      color: #000080;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 40px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .city-card {
+      background: #676fe6;
+      padding: 25px 15px;
+      border-radius: 25px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: 0.2s;
+    }
+
+    .city-card:hover {
+      background: #44cddf;
+      transform: translateY(-3px);
+    }
+  </style>
+</head>
+<body>
+
+<h1>Sri Lanka Weather</h1>
+<h2>Select Your City</h2>
+
+<div class="grid">
+
+  <div class="city-card" onclick="go('weathercolombo.html')">Colombo</div>
+  <div class="city-card" onclick="go('weatherkandy.html')">Kandy</div>
+  <div class="city-card" onclick="go('weathergampaha.html')">Gampaha</div>
+  <div class="city-card" onclick="go('weathergalle.html')">Galle</div>
+  <div class="city-card" onclick="go('weatherjaffna.html')">Jaffna</div>
+  <div class="city-card" onclick="go('weatherragama.html')">Ragama</div>
+  <div class="city-card" onclick="go('weathernugegoda.html')">Nugegoda</div>
+  <div class="city-card" onclick="go('weatherpanadura.html')">Panadura</div>
+  <div class="city-card" onclick="go('weathermoratuwa.html')">moratuwa</div>
+  <div class="city-card" onclick="go('weatherrathnapura.html')">Rathnapura</div>
+  <div class="city-card" onclick="go('weathertrincomalee.html')">Trincomalee</div>
+  <div class="city-card" onclick="go('weatherbadulla.html')">Badulla</div>
+
+
+
+
+</div>
+
+<script>
+  function go(page) {
+    window.location.href = page; 
+  }
+</script>
+
+</body>
+</html>

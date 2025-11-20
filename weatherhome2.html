@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Sri Lanka Weather App</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #95dfec;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      background-image:"resources\lightning-grand-canyon.jpg";
+    }
+
+    /* LEFT SIDE */
+    .sidebar {
+      width: 280px;
+      background: #536f8a;
+      padding: 20px;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: scroll;
+    }
+
+    .sidebar input {
+      padding: 10px;
+      border: 1px solid #6e1515;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+
+    .main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;        
+  justify-content: center;    
+}
+    .city-btn {
+      padding: 12px;
+      background: #94bbd1;
+      border-radius: 40px;
+      margin-bottom: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: left;
+      border: 1px solid transparent;
+      transition: 0.2s;
+    }
+
+    .city-btn:hover {
+      background: #5fc0c0;
+      border-color: #79a2ff;
+    }
+
+    /* RIGHT SIDE */
+    .content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-family:'times new roman';
+      font-size: 120px;
+      font-weight: 800;
+      color: #04043b;
+    }
+
+
+    .card {
+      width: 340px;
+      padding: 25px;
+      background: rgb(99, 187, 238);
+      border-radius: 14px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(218, 189, 189, 0.1);
+      align-items: center;
+
+    }
+
+    .temp {
+      font-size: 40px;
+      font-weight: bold;
+    }
+
+    .desc {
+      text-transform: capitalize;
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+          
+
+  </style>
+</head>
+
+<body>
+
+<!-- LEFT SIDE -->
+<div class="sidebar">
+  <input type="text" id="search" placeholder="Search a city..." />
+  
+
+  <div id="cityList"></div>
+</div>
+
+
+
+  
+
+<!-- RIGHT SIDE -->
+<div class="main">
+  
+    <h1>Sri Lanka Weather</h1>
+
+<div class="content">
+  <div class="card">
+    <h2 id="city">Select a city</h2>
+    <div id="temp" class="temp">-- °C</div>
+    <div id="desc" class="desc">---</div>
+    <p>Humidity: <span id="humidity">--</span>%</p>
+    <p>Wind Speed: <span id="wind">--</span> m/s</p>
+  </div>
+</div>
+
+
+<script>
+  const API_KEY = "b54f178b3a4d6fe5e26153a7b3e7ef40";
+
+  function loadWeather(city) {
+    document.getElementById("city").textContent = "Loading...";
+    document.getElementById("temp").textContent = "--";
+    document.getElementById("desc").textContent = "---";
+    document.getElementById("humidity").textContent = "--";
+    document.getElementById("wind").textContent = "--";
+
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.cod !== 200) {
+          document.getElementById("city").textContent = "City Not Found";
+          return;
+        }
+
+        document.getElementById("city").textContent = data.name;
+        document.getElementById("temp").textContent = data.main.temp.toFixed(1) + " °C";
+        document.getElementById("desc").textContent = data.weather[0].description;
+        document.getElementById("humidity").textContent = data.main.humidity;
+        document.getElementById("wind").textContent = data.wind.speed;
+      });
+  }
+
+
+  /* -------------------------------
+     FULL LIST OF SRI LANKAN CITIES
+     ------------------------------- */
+
+  const sriLankaCities = [
+  
+  "Colombo","Kandy","Galle","Jaffna","Gampaha","Kalutara","Matara","Hambantota",
+  "Trincomalee","Batticaloa","Ampara","Badulla","Monaragala","Nuwara Eliya","Ratnapura",
+  "Kegalle","Kurunegala","Puttalam","Mannar","Vavuniya","Kilinochchi","Mullaitivu",
+  
+  // Municipal / Urban Councils
+  "Negombo","Wattala","Moratuwa","Maharagama","Panadura","Kesbewa","Kotte",
+  "Dehiwala","Mount Lavinia","Wellawatte","Kalubowila","Kohuwala","Nugegoda",
+  "Rajagiriya","Baththaramulla","Piliyandala","Homagama","Avissawella","Kaduwela",
+  
+  // Southern Province
+  "Hikkaduwa","Ambalangoda","Elpitiya","Bentota","Ahangama","Weligama","Mirissa",
+  "Tangalle","Tissamaharama","Kataragama","Embilipitiya",
+  
+  // Uva Province
+  "Bandarawela","Haputale","Welimada","Mahiyanganaya","Ella","Passara",
+  
+  // North Central Province
+  "Anuradhapura","Polonnaruwa","Habarana","Minneriya","Kekirawa","Medawachchiya",
+  
+  // Sabaragamuwa Province
+  "Balangoda","Eheliyagoda","Kuruwita","Pelmadulla","Embilipitiya","Rakwana",
+  
+  // North Western Province
+  "Chilaw","Wennappuwa","Marawila","Kuliyapitiya","Narammala","Mawathagama",
+  
+  // Eastern Province
+  "Kalmunai","Akkaraipattu","Pottuvil","Arugam Bay","Eravur","Kattankudy",
+  
+  // Northern Province
+  "Point Pedro","Chavakachcheri","Kayts","Nainativu","Velanai","Pooneryn",
+  
+  // Central Province
+  "Katugastota","Peradeniya","Gampola","Nawalapitiya","Hatton","Maskeliya",
+  
+  // Western Urban Areas
+  "Boralesgamuwa","Angoda","Kotikawatta","Kolonnawa","Modara","Mattakkuliya",
+  "Kotahena","Pettah","Fort","Bambalapitiya","Kollupitiya","Nawala",
+  
+  // Airport Areas
+  "Katunayake","Seeduwa","Ja-Ela","Ekala","Ragama","Kandana",
+  
+  // More towns
+  "Horana","Beruwala","Aluthgama","Kalawana","Deniyaya","Akuressa","Baddegama",
+  "Dompe","Minuwangoda","Dankotuwa","Divulapitiya","Wariyapola","Pannala"
+];
+
+  
+
+  function generateCityButtons(cities) {
+    const list = document.getElementById("cityList");
+    list.innerHTML = "";
+    cities.forEach(city => {
+      const div = document.createElement("div");
+      div.className = "city-btn";
+      div.textContent = city;
+      div.onclick = () => loadWeather(city);
+      list.appendChild(div);
+    });
+  }
+
+  generateCityButtons(sriLankaCities);
+
+  // SEARCH
+  document.getElementById("search").addEventListener("input", function () {
+    const filtered = sriLankaCities.filter(city =>
+      city.toLowerCase().includes(this.value.toLowerCase())
+    );
+    generateCityButtons(filtered);
+  });
+
+</script>
+
+</body>
+</html>
